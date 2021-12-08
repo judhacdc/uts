@@ -13,46 +13,61 @@
     <!--JavaScript LeafletJS-->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <link rel="stylesheet" href="./assets/css/style.css">
+
+    <style>
+        button {
+            background: #22a4cf;
+            color: white;
+            border: white 3px solid;
+            border-radius: 5px;
+            padding: 3px 10px;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .button1 {
+            font-size: 30px;
+        }
+    </style>
+    <!-- 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"> -->
 </head>
 
-<body>
-    <div id="mapid" style="width: 100%;height: 60vh; border-radius: 50px;"></div>
+<body style="background-color: #ffffff;">
 
+    <div id="mapid" style="width: 100%;height: 60vh; border-radius: 50px;"></div>
 
     <div class="all-content">
         <div class="content">
             <h1>WISATA KOTA BATU - MALANG</h1>
             <P>List Wisata yang Paling sering di Kunjungi
                 <P>
+                <?php 
+                        include "koneksi.php";
+
+                        $query = "SELECT * FROM wisata";
+                        $result = mysqli_query($connect, $query);            
+
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_array($result)) {                                
+                ?>
                     <div class="banner">
                         <a href="#pariwisata">
-                            <img style="width: 50%; height: 200px; border-radius: 50%;" src="./assets/img/wisata/10.jpg">
+                            <img style="width: 50%; height: 200px; border-radius: 50%;" src="dashboard/uploads/<?php echo $row['image']?>">
                         </a>
-                        <h1>COBAN RONDO</h1>
+                        <h1><?php echo $row['title']?></h1>
                         <p>
-                            Air Terjun Coban Rondo merupakan air terjun yang terletak di Kecamatan Pujon, Kota Batu, Kabupaten Malang, Jawa Timur. Air terjun ini mudah dijangkau oleh kendaraan umum. Akses yang paling mudah adalah melalui jalan raya dari Malang ke Batu dari sebelah
-                            timur atau dari Kediri ke Pare menuju Malang dari arah barat.
+                             <?php echo $row['deskripsi']?>
                         </p>
                     </div>
-                    <div class="banner">
-                        <a href="#pariwisata">
-                            <img style="width: 50%; height: 200px; border-radius: 50%;" src="./assets/img/wisata/11.jpg">
-                        </a>
-                        <h1>JAWA TIMUR PARK 3</h1>
-                        <p>
-                            Jatim Park 3 berada di desa Beji, Kecamatan Junrejo, Kota Batu. Jatim Park 3 mengusung konsep taman bermain sekaligus edukasi mengenai hewan-hewan purbakala termasuk Dinosaurus. Taman Wisata Dinosaurus Jatim Park 3 juga dilengkapi dengan food court di
-                            sekitar area yang menyajikan aneka masakan tradisional, eropa, jajanan ringan dan minuman segar.
-                        </p>
-                    </div>
-                    <div class="banner">
-                        <a href="#pariwisata">
-                            <img style="width: 50%; height: 200px; border-radius: 50%;" src="./assets/img/wisata/14.jpg">
-                        </a>
-                        <h1>JAWA TIMUR PARK 1</h1>
-                        <p>
-                            Jawa Timur Park 1 atau yang biasa disebut Jatim Park 1 merupakan salah satu tempat rekreasi dan taman belajar yang terdapat di Kota Batu, Jawa Timur Indonesia.Jawa Timur Park 1 memiliki lebih dari 50 wahana yang seru dan tentunya menarik.
-                        </p>
-                    </div>
+                    <?php          
+                            }
+                        }else{
+                            echo "0 result";
+                        }
+                    ?>
         </div>
         <br><br> <br><br>
         <div class="content-paralax">
@@ -113,6 +128,10 @@
                 </div>
             </div>
         </div>
+        <br>
+        <br>
+
+        <center><a href="loginpage/index.php"><button class="btn btn-primary rounded">Ubah Data</button></a></center>
 
         <div class="content-paralax">
             <div class="paralax-img-2">
@@ -177,6 +196,8 @@
                 shadowAnchor: [4, 62],
                 popupAnchor: [-3, -76],
             });
+
+            
             L.tileLayer(
                 "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYnVrdWtvZGluZyIsImEiOiJja3RtN3lxZTgyM2FuMm5udGtlY3RheXJlIn0.AQNBB6nKHrqmseFFs-qGlg", {
                     maxZoom: 18,
@@ -189,12 +210,13 @@
                 }
             ).addTo(mymap);
 
+
             L.marker([-7.895370080574143, 112.55367915404798], {
                     icon: greenIcon
                 })
                 .addTo(mymap)
                 .bindPopup("<img style='width: 100%' src='./assets/img/wisata/23.jpg' /> <b>Jatim Park 3</b><br />Jatim Park 3 mengusung konsep taman bermain sekaligus edukasi mengenai hewan-hewan purbakala termasuk Dinosaurus. Taman Wisata Dinosaurus Jatim Park 3 juga dilengkapi dengan food court di sekitar area yang menyajikan aneka masakan tradisional, eropa, jajanan ringan dan minuman segar.");
-
+            
             L.marker([-7.8870913508445355, 112.52896092629179], {
                     icon: greenIcon
                 })

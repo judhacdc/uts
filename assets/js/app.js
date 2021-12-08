@@ -22,7 +22,7 @@ function upCount() {
 
         setTimeout(upCount, 1);
     } else {
-        count.innerText = location.href = 'home.html';
+        count.innerText = location.href = 'home.php';
     }
 }
 upCount();
